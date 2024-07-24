@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #e1e5e8; /* Light gray background */
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            width: 50%; /* Decreased width of the container */
+            max-width: 600px; /* Max width for larger screens */
+            background-color: #ffffff; /* White background for the box */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-container {
+            margin-right: 20px; /* Space between image and form */
+        }
+
+        .image-container img {
+            width: 120px; /* Adjust size as needed */
+            height: auto;
+            border-radius: 8px; /* Rounded corners for the image */
+        }
+
+        .form-container {
+            flex: 1; /* Take remaining space */
+        }
+
+        .title {
+            font-size: 1.5em; /* Adjusted font size */
+            font-weight: bold;
+            color: #333; /* Darker color for contrast */
+            margin-bottom: 20px; /* Gap between title and form */
+            text-align: center; /* Center align the title */
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: none;
+            background-color: #1f3a4c; /* Whale blue */
+            color: #fff;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0d2c38; /* Darker whale blue */
+        }
+
+        .result {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .result p {
+            font-size: 1.2em;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img src="t.jpg" alt="Temperature Conversion">
+        </div>
+        <div class="form-container">
+            <div class="title">Temperature Converter</div>
+            <div class="form-group">
+                <label for="inputTemp">Enter Temperature:</label>
+                <input type="number" id="inputTemp" placeholder="Temperature">
+            </div>
+            <div class="form-group">
+                <label for="fromUnit">From:</label>
+                <select id="fromUnit">
+                    <option value="Celsius">Celsius</option>
+                    <option value="Fahrenheit">Fahrenheit</option>
+                    <option value="Kelvin">Kelvin</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="toUnit">To:</label>
+                <select id="toUnit">
+                    <option value="Celsius">Celsius</option>
+                    <option value="Fahrenheit">Fahrenheit</option>
+                    <option value="Kelvin">Kelvin</option>
+                </select>
+            </div>
+            <button onclick="convert()">Convert</button>
+            <div class="result" id="result">
+                <p id="convertedTemp"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function convert() {
+            const inputTemp = parseFloat(document.getElementById('inputTemp').value);
+            const fromUnit = document.getElementById('fromUnit').value;
+            const toUnit = document.getElementById('toUnit').value;
+
+            if (isNaN(inputTemp)) {
+                document.getElementById('convertedTemp').textContent = 'Please enter a valid temperature.';
+                return;
+            }
+
+            let celsiusTemp;
+
+            // Convert from the source unit to Celsius
+            switch (fromUnit) {
+                case 'Fahrenheit':
+                    celsiusTemp = (inputTemp - 32) * 5/9;
+                    break;
+                case 'Kelvin':
+                    celsiusTemp = inputTemp - 273.15;
+                    break;
+                default:
+                    celsiusTemp = inputTemp;
+            }
+
+            let result;
+
+            // Convert from Celsius to the target unit
+            switch (toUnit) {
+                case 'Fahrenheit':
+                    result = celsiusTemp * 9/5 + 32;
+                    break;
+                case 'Kelvin':
+                    result = celsiusTemp + 273.15;
+                    break;
+                default:
+                    result = celsiusTemp;
+            }
+
+            document.getElementById('convertedTemp').textContent = `Converted Temperature: ${result.toFixed(2)} ${toUnit}`;
+        }
+    </script>
+</body>
+</html>
